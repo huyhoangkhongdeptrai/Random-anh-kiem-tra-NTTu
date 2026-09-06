@@ -1257,14 +1257,33 @@
 
 
 
-<!-- Hộp thoại nhập tên (chỉ có 1 nút, không có Cancel) -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<!-- Hộp thoại nhập tên (chỉ có 1 nút, bắt buộc phải gõ gì đó) -->
 <div id="nameOverlay" style="position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;font-family:Georgia,'Times New Roman',serif;">
   <div style="background:#1a2320;border:1px solid #2a352f;border-radius:14px;padding:28px 26px;max-width:320px;width:88%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.5);">
     <p style="margin:0 0 16px;color:#eef0ea;font-size:16px;">Nhập tên của bạn để bắt đầu sử dụng trang:</p>
     <input id="nameInput" type="text" placeholder="Tên của bạn..."
-      style="width:100%;padding:11px 12px;border-radius:8px;border:1px solid #2a352f;background:#0f1512;color:#eef0ea;box-sizing:border-box;margin-bottom:16px;font-size:15px;outline:none;">
+      style="width:100%;padding:11px 12px;border-radius:8px;border:1px solid #2a352f;background:#0f1512;color:#eef0ea;box-sizing:border-box;margin-bottom:8px;font-size:15px;outline:none;">
+    <p id="nameError" style="display:none;color:#c86a5c;font-size:13px;margin:0 0 12px;text-align:left;">Vui lòng nhập tên trước khi tiếp tục.</p>
     <button id="nameSubmitBtn"
-      style="width:100%;padding:11px;border-radius:8px;border:none;background:#d4af5a;color:#0f1512;font-weight:700;font-size:15px;cursor:pointer;">
+      style="width:100%;padding:11px;border-radius:8px;border:none;background:#d4af5a;color:#0f1512;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px;">
       Bắt đầu
     </button>
   </div>
@@ -1289,11 +1308,17 @@
 
   const overlay = document.getElementById('nameOverlay');
   const input = document.getElementById('nameInput');
+  const errorMsg = document.getElementById('nameError');
   const submitBtn = document.getElementById('nameSubmitBtn');
 
   function xacNhanTen(){
-    let ten = input.value.trim();
-    if(ten === '') ten = 'Ẩn danh';
+    const ten = input.value.trim();
+    if(ten === ''){
+      errorMsg.style.display = 'block';
+      input.style.border = '1px solid #c86a5c';
+      input.focus();
+      return; // chặn lại, không cho qua
+    }
     ghiNhanNguoiDung(ten);
     overlay.style.display = 'none';
   }
@@ -1302,19 +1327,15 @@
   input.addEventListener('keydown', (e) => {
     if(e.key === 'Enter') xacNhanTen();
   });
+  input.addEventListener('input', () => {
+    // gõ lại thì ẩn thông báo lỗi đi
+    errorMsg.style.display = 'none';
+    input.style.border = '1px solid #2a352f';
+  });
 
   window.addEventListener('DOMContentLoaded', () => input.focus());
 })();
 </script>
-
-
-
-
-
-
-
-
-
 
 
 
