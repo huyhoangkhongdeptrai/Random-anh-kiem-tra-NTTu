@@ -1220,6 +1220,54 @@
     performDraw();
   });
 
+
+
+
+
+
+
+
+
+
+  
+
+<script>
+(function(){
+  // ====== CẤU HÌNH: điền 2 giá trị này sau khi tạo Google Form (xem hướng dẫn bên dưới) ======
+  const GOOGLE_FORM_ID = '1FAIpQLSe7j3DuxQG3CBFBSJ4wBOaBOgjT5wuXn5txy18PU79c2KEUKA';       // ví dụ: 1FAIpQLSc...
+  const NAME_ENTRY_ID  = 'entry.1857712124';       // ví dụ: entry.123456789
+
+  function ghiNhanNguoiDung(ten){
+    if(!ten) return;
+    const formData = new FormData();
+    formData.append(NAME_ENTRY_ID, ten);
+    fetch(`https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    }).catch(()=>{});
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    let ten = prompt('Nhập tên của bạn để bắt đầu sử dụng trang:');
+    if(ten === null || ten.trim() === '') ten = 'Ẩn danh';
+    ghiNhanNguoiDung(ten.trim());
+  });
+})();
+</script>
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
   render();
 </script>
 </body>
